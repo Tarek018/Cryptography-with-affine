@@ -9,21 +9,25 @@ import subprocess
 
 class crypteAffine :
     plainText:string
+    cipherText:string
     keyOne:int
     keyTwo:int
     alphabet = []
-    def __init_(self):
+
+    def __init__(self):
         self.plainText = ""
+        self.cipherText = ""
         self.keyOne = 0
         self.keyTwo = 0
-        # Add each letter of the alphabet to the array using a for loop
+        
         for letter in range(ord('A'), ord('Z') + 1):
             self.alphabet.append(chr(letter))
+
 
         
     
     def open_file(self):
-        global key1_button
+         
         # global chiffre_btn
         
         file_path = filedialog.askopenfilename()
@@ -37,7 +41,6 @@ class crypteAffine :
                 # Check if the file contains numbers
                 if re.search(r'\d', text):
                     messagebox.showwarning("Alert", "The file contains numbers!\nPlease try again.")
-                    key1_button.config(state=DISABLED)
                     key2_button.config(state=DISABLED)
                     chiffre_btn.config(state=DISABLED)
                     self.open_file()
@@ -45,9 +48,12 @@ class crypteAffine :
                     text = text.upper()
                     print(text)
                     self.plainText = text
-                    key1_button.config(state=ACTIVE)
     def encrypte(self):
         cipher_text = ""
+        print("sdasad")
+        # Add each letter of the alphabet to the array using a for loop
+        print(self.alphabet)
+        print(self.plainText)
         for char in self.plainText:
             self.alphabet = string.ascii_lowercase
             char = char.lower()
@@ -55,26 +61,30 @@ class crypteAffine :
             if char in self.alphabet:
                 index = self.alphabet.index(char)
                 new_index = (self.keyOne * index + self.keyTwo) % 26
-                print(index)
-                cipher_text += self.alphabet[new_index]   
+                self.cipherText = self.cipherText + self.alphabet[new_index]
             else:
                 if char == ' ':
-                    cipher_text = cipher_text+ ' '
+                    self.cipherText = self.cipherText+ ' '
+                    print("close")
                 else:
-                    return -1  # Character is not in the alphabet
-        cipher_text = cipher_text.upper()
-        print(cipher_text)
+                    print("close1")
+                    print(self.cipherText)
+        self.cipherText = self.cipherText.upper()
+        print("kdasjksda")
+        print(self.cipherText)
         new_file_path = "encrypted_file.txt"
         with open(new_file_path, 'w') as file:
-            # Write content to the file
-            file.write(cipher_text)
-            subprocess.Popen(['notepad.exe', new_file_path])
+                        # Write content to the file
+                        file.write(self.cipherText)
+                        subprocess.Popen(['notepad.exe', new_file_path])           
+        
     
     def enter_key_one(self,value):
         global chiffre_btn
         global key2_button
 
         self.keyOne = value
+        print(self.keyOne)
         key2_button.config(state=ACTIVE)   
 
     def enter_key_two(self):
