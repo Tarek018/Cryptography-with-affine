@@ -50,7 +50,7 @@ class decrypteAffine :
         
         for a in range(1,26):
             if math.gcd(a,26) == 1:
-                for b in range(1,27):
+                for b in range(0,26):
                     possible_case.append((a,b))
         for case in possible_case:
             plainText = plainText + '\n'
